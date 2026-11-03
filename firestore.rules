@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// Firebase Console → Firestore Database → Rules tab එකට මේක සම්පූර්ණයෙන්ම paste කරලා Publish කරන්න.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // උපකරණ කුලිය: සැමට කියවිය හැක; login වූ අයට පමණක් එකතු කළ හැක; තමන්ගේ එක පමණක් මැකිය හැක
+    match /rentals/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['owner','phone','type','district','address','price','uid','createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.owner is string && request.resource.data.owner.size() > 0 && request.resource.data.owner.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.matches('^0[0-9]{9}$')
+        && request.resource.data.type is string && request.resource.data.type.size() <= 30
+        && request.resource.data.district is string && request.resource.data.district.size() <= 30
+        && request.resource.data.address is string && request.resource.data.address.size() <= 120
+        && request.resource.data.price is string && request.resource.data.price.size() <= 10;
+      allow update: if false;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
+    // විශේෂඥයන්: සැමට කියවිය හැක; console එකෙන් පමණක් වෙනස් කළ හැක
+    match /experts/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ඇණවුම්: login වූ අයට පමණක් තමන්ගේ ඇණවුම් එකතු කළ/කියවිය හැක. විකුණුම්කරු Firebase console එකෙන් බලයි.
+    match /orders/{id} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['name','phone','district','address','note','items','total','uid','createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.matches('^0[0-9]{9}$')
+        && request.resource.data.district is string && request.resource.data.district.size() <= 30
+        && request.resource.data.address is string && request.resource.data.address.size() <= 120
+        && request.resource.data.note is string && request.resource.data.note.size() <= 200
+        && request.resource.data.items is list && request.resource.data.items.size() > 0 && request.resource.data.items.size() <= 20
+        && request.resource.data.total is number && request.resource.data.total >= 0 && request.resource.data.total <= 10000000;
+      allow update, delete: if false;
+    }
+
+    // රෝග වාර්තා (සිතියම): සැමට කියවිය හැක; login වූ අයට පමණක් එකතු කළ හැක; වෙනස් කිරීම/මැකීම නැහැ
+    match /reports/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['disease','district','uid','createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.disease is string && request.resource.data.disease.size() <= 40
+        && request.resource.data.district is string && request.resource.data.district.size() <= 30;
+      allow update, delete: if false;
+    }
+  }
+}
