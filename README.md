@@ -3,7 +3,7 @@
 AI-powered plant disease detection and farm-support web app for Sri Lankan farmers.
 **සිංහල / English** · Works on mobile · Installable as a PWA
 
-> **Live demo:**  https://github.com/pamodikavindya1/Agri-Doctor
+> **Live demo:**  https://pamodikavindya1.github.io/Agri-Doctor/
 
 
 ## Features
