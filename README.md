@@ -5,8 +5,7 @@ AI-powered plant disease detection and farm-support web app for Sri Lankan farme
 
 > **Live demo:** https://pamodikavindya1.github.io/YOUR-REPO-NAME/  ← _replace with your real link_
 
-![Screenshot](images/screenshot.png) <!-- add a screenshot named screenshot.png in /images, or delete this line -->
-
+link: https://github.com/pamodikavindya1/Agri-Doctor
 ## Features
 
 - 🤖 **AI disease detection** – upload a leaf photo; a Teachable Machine / TensorFlow.js model runs **in the browser** and returns the disease, a confidence score and treatment advice. Low-confidence results ask the user to retake the photo instead of guessing.
