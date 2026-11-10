@@ -1,17 +1,17 @@
- 🌿 AgriDoctor Pro
+# 🌿 AgriDoctor Pro
 
 AI-powered plant disease detection and farm-support web app for Sri Lankan farmers.
-සිංහල / English · Works on mobile · Installable as a PWA
+**සිංහල / English** · Works on mobile · Installable as a PWA
 
- **Live demo**: https://pamodikavindya1.github.io/Agri-Doctor/
+> **Live demo:** https://pamodikavindya1.github.io/YOUR-REPO-NAME/  ← _replace with your real link_
 
-<img width="941" height="367" alt="image" src="https://github.com/user-attachments/assets/13ecac0f-98d8-4175-a253-bce0153a3026" />
+![Screenshot](images/screenshot.png) <!-- add a screenshot named screenshot.png in /images, or delete this line -->
 
 ## Features
 
 - 🤖 **AI disease detection** – upload a leaf photo; a Teachable Machine / TensorFlow.js model runs **in the browser** and returns the disease, a confidence score and treatment advice. Low-confidence results ask the user to retake the photo instead of guessing.
 - 📖 **Disease directory** – 38 diseases (rice, tea, banana, vegetables, fruit trees…) with scientific name, treatment and prevention, searchable by text or voice, in Sinhala and English.
-- 🗺️ **Risk map** – all 25 districts coloured by risk level; farmers can report a detected disease for their district, and the map updates from real reports (last 14 days).
+- 🌦️ **Weather & farm advice** – 5-day forecast for all 25 districts (Open-Meteo, no API key) with plain-language advice: best day to spray/fertilise, rain/wind/heat warnings and fungal-disease alerts.
 - 🚜 **Equipment rental** – farmers list tractors, water tanks, harvesters etc.; everyone can browse, only logged-in owners can add or delete their own listings.
 - 🛒 **Farm-supply orders** – product catalogue, cart and order form; orders are stored in Firestore (and can be forwarded by WhatsApp).
 - 👩‍🌾 **Expert & support contacts** – official Department of Agriculture contacts (1920 advisory line, research institutes) plus a district-wise expert directory.
@@ -31,10 +31,11 @@ AI-powered plant disease detection and farm-support web app for Sri Lankan farme
 ```
 index.html          page structure
 style.css           styling (light/dark, responsive)
-script.js           app logic, Sinhala/English text, disease data, map, shop
+script.js           app logic, Sinhala/English text, disease data, weather, shop
 backend.js          Firebase integration (loaded as an ES module)
 firebase-config.js  Firebase project settings (public web config)
 firestore.rules     Firestore security rules
+sw.js               clears any old service worker/cache left from earlier versions
 images/             background image
 ```
 
@@ -60,15 +61,15 @@ See **BACKEND-SETUP.md**. In short: create a Firebase project → enable Email/P
 ## Known limitations
 
 - The AI model recognises only the classes it was trained on (currently healthy, rust, leaf curl, powdery mildew). The other diseases are available in the directory/search; detecting them requires retraining the model with labelled images.
-- Map risk colours and shop products/prices are **sample data** until real reports/products are added.
+- Shop products/prices are **sample data** until you add real products.
 - Treatment text is general guidance, not a prescription. Always follow the product label and consult an agriculture officer.
 - No online payment: orders are requests the seller confirms.
 
 ## Credits & data sources
 
-- Map tiles: © OpenStreetMap contributors © CARTO (when the tile server is reachable; otherwise a built-in simple map is shown).
+- Weather data: Open-Meteo.com (free for non-commercial use).
 - Contact details: Department of Agriculture, Sri Lanka (doa.gov.lk) – please verify on the official site before relying on them.
-- Icons: Font Awesome · Fonts: Poppins (Google Fonts) · Maps: Leaflet
+- Icons: Font Awesome · Fonts: Poppins (Google Fonts)
 
 ---
 **සිංහලෙන් කෙටියෙන්:** ශ්‍රී ලංකාවේ ගොවීන් සඳහා ශාක රෝග AI මගින් හඳුනාගැනීම, රෝග නාමාවලිය, අවදානම් සිතියම, උපකරණ කුලිය, කෘෂි භාණ්ඩ ඇණවුම් සහ විශේෂඥ සම්බන්ධතා ඇතුළත් වෙබ් යෙදුමකි.

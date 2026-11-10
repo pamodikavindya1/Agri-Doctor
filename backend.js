@@ -13,7 +13,7 @@ window.AgriBackend = { enabled: false };
 
 // await නොකර ධාවනය කරයි - එවිට UI buttons බලා සිටීමක් නැතිව වහාම වැඩ කරයි
 (async () => {
-  if (!configured) { console.info("Backend: firebase-config.js පිරවා නැත. දේශීය (browser) ප්‍රකාරයෙන් වැඩ කරයි."); return; }
+  if (!configured) { console.info("Backend: firebase-config.js පිරවා නැත."); emit("agri:error", "firebase-config.js is not filled in"); return; }
 
   try {
     const [appM, authM, fsM] = await Promise.all([
@@ -103,5 +103,6 @@ window.AgriBackend = { enabled: false };
   } catch (err) {
     console.error("Backend init failed - දේශීය ප්‍රකාරයෙන් දිගටම:", err);
     window.AgriBackend = { enabled: false };
+    emit("agri:error", String((err && err.message) || err));
   }
 })();

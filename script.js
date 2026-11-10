@@ -331,16 +331,6 @@ const EXPERTS = [
     { name: "උදාහරණ නිලධාරියා 2", nameEn: "Sample Officer 2", district: "ගාල්ල", phone: "0700000001", email: "" }
 ];
 
-// Demo සිතියම් දත්ත - දිස්ත්‍රික්ක 25ටම (DIST_COORDS පසුව පිරවේ)
-const ZONES = [];
-const DEMO_RISK = {
-    "මහනුවර": ["high", "මලකඩ රෝගය වාර්තා වේ", "Rust disease reported"],
-    "කොළඹ": ["medium", "නිරීක්ෂණය අවශ්‍යයි", "Monitoring needed"],
-    "ගාල්ල": ["medium", "කොළ පුල්ලි රෝගය", "Leaf spot disease"],
-    "කුරුණෑගල": ["medium", "නිරීක්ෂණය අවශ්‍යයි", "Monitoring needed"]
-};
-const RISK_COLOR = { high: "#f44336", medium: "#ff9800", low: "#4caf50" };
-
 // ==================== ENGLISH DISEASE TEXT ====================
 const DISEASE_EN = {
     "rust": { name: "Rust disease", treatment: "Apply sulphur-based fungicides. Remove infected leaves. Reduce humidity. Continue treatment for 2 weeks.", prevention: "Use healthy seeds. Practise crop rotation. Ensure good air circulation." },
@@ -508,67 +498,63 @@ Object.assign(I18N.en, {
 });
 
 const DIST_COORDS = { "කොළඹ":[6.9271,79.8612],"ගම්පහ":[7.0917,79.9999],"කළුතර":[6.5854,79.9607],"මහනුවර":[7.2906,80.6337],"මාතලේ":[7.4675,80.6234],"නුවරඑළිය":[6.9497,80.7891],"ගාල්ල":[6.0535,80.2210],"මාතර":[5.9549,80.5550],"හම්බන්තොට":[6.1241,81.1185],"යාපනය":[9.6615,80.0255],"කුරුණෑගල":[7.4863,80.3623],"අනුරාධපුර":[8.3114,80.4037],"පොළොන්නරුව":[7.9403,81.0188],"බදුල්ල":[6.9934,81.0550],"මොනරාගල":[6.8728,81.3507],"රත්නපුර":[6.6828,80.3992],"කෑගල්ල":[7.2513,80.3464],"වව්නියාව":[8.7514,80.4971],"මන්නාරම":[8.9810,79.9044],"මුලතිව්":[9.2671,80.8142],"කිලිනොච්චි":[9.3803,80.3770],"ත්‍රිකුණාමලය":[8.5874,81.2152],"මඩකලපුව":[7.7102,81.6924],"අම්පාර":[7.2975,81.6820],"පුත්තලම":[8.0362,79.8283] };
-DISTRICTS.forEach(([si, en]) => {
-    const dr = DEMO_RISK[si] || ["low", "සාමාන්‍ය තත්ත්වය", "Normal conditions"];
-    if (DIST_COORDS[si]) ZONES.push({ si, en, p: DIST_COORDS[si], r: dr[0], ts: dr[1], te: dr[2] });
+
+
+Object.assign(I18N.si, {
+    nav_weather: "කාලගුණය", weather_title: "කාලගුණය සහ ඉසින/පොහොර යෙදීමේ උපදෙස්",
+    weather_pick_hint: "කාලගුණය බැලීමට ඔබේ දිස්ත්‍රික්කය තෝරන්න.", weather_loading: "කාලගුණ දත්ත ලබාගනිමින්...",
+    weather_err: "කාලගුණ දත්ත ලබාගත නොහැකි විය. අන්තර්ජාලය පරීක්ෂා කර නැවත උත්සාහ කරන්න.",
+    weather_credit: "කාලගුණ දත්ත: Open-Meteo.com (පුරෝකථන මාර්ගෝපදේශයක් පමණි)",
+    weather_now: "දැන්", wx_humidity: "ආර්ද්‍රතාව", wx_wind: "සුළං", wx_rain: "වැසි", wx_chance: "ඉඩකඩ",
+    advice_title: "ගොවීන් සඳහා උපදෙස්",
+    adv_best: "ඉසීමට / පොහොර යෙදීමට හොඳම දිනය: {d}",
+    adv_none: "ඉදිරි දින 5 තුළ ඉසීමට සුදුසු දිනයක් නැත (වැසි හෝ සුළං). පසුව නැවත පරීක්ෂා කරන්න.",
+    adv_rain: "{d}: වැසි ඉඩ ඇත. ඉසීම / පොහොර යෙදීම නොකරන්න (සේදී යයි).",
+    adv_wind: "{d}: තද සුළං. ඉසීම නොකරන්න (ඉසින දේ වෙනතකට හමා යයි).",
+    adv_heat: "{d}: අධික උෂ්ණත්වය. උදේ හෝ සවස වතුර දමන්න; දහවල ඉසීම නොකරන්න.",
+    adv_flood: "{d}: අධික වැසි. ජලය බැස යාම පරීක්ෂා කරන්න (මුල් කුණුවීම, අංගමාර රෝග අවදානම).",
+    adv_fungal: "වැසි දින කිහිපයක් ඇති නිසා දිලීර රෝග (අංගමාරය, මලකඩ, පවුඩරි මිල්ඩියු) වැඩි වීමට ඉඩ ඇත. කොළ නිතර පරීක්ෂා කරන්න.",
+    adv_note: "මෙය පොදු මාර්ගෝපදේශයක් පමණි. රසායන ද්‍රව්‍ය භාවිතයේදී ලේබලයේ උපදෙස් අනුගමනය කරන්න.",
+    copy: "පිටපත් කරන්න", copied: "පිටපත් කළා",
+    contact_note: "සම්බන්ධතා තොරතුරු කෘෂිකර්ම දෙපාර්තමේන්තුවේ වෙබ් අඩවියෙන් (doa.gov.lk) ලබාගත් ඒවා; භාවිතයට පෙර නිල වෙබ් අඩවියෙන් තහවුරු කරගන්න. දුරකථනයකින් නම් අංකය ඔබා ඇමතිය හැක; පරිගණකයකින් නම් 'පිටපත් කරන්න' භාවිතා කරන්න.",
+    backend_off: "ඇතුල් වීම දැනට ක්‍රියා නොකරයි: backend එක සම්බන්ධ වී නැත. (Folder එකේ file එක කෙලින්ම open කර ඇත්නම්, ඔබේ GitHub Pages link එකෙන් open කරන්න.)"
+});
+Object.assign(I18N.en, {
+    nav_weather: "Weather", weather_title: "Weather & Spraying/Fertilising Advice",
+    weather_pick_hint: "Select your district to see the forecast.", weather_loading: "Loading weather data...",
+    weather_err: "Could not load weather data. Check your internet connection and try again.",
+    weather_credit: "Weather data by Open-Meteo.com (a forecast guide only)",
+    weather_now: "Now", wx_humidity: "Humidity", wx_wind: "Wind", wx_rain: "Rain", wx_chance: "chance",
+    advice_title: "Advice for farmers",
+    adv_best: "Best day to spray / fertilise: {d}",
+    adv_none: "No ideal spraying day in the next 5 days (rain or wind). Check again later.",
+    adv_rain: "{d}: rain likely. Avoid spraying or fertilising (it will wash off).",
+    adv_wind: "{d}: strong wind. Avoid spraying (drift).",
+    adv_heat: "{d}: very hot. Water early morning or evening; avoid midday spraying.",
+    adv_flood: "{d}: heavy rain. Check drainage (risk of root rot and blight).",
+    adv_fungal: "Several rainy days ahead: fungal diseases (blight, rust, mildew) are more likely. Inspect leaves often.",
+    adv_note: "This is general guidance only. Follow the product label when using chemicals.",
+    copy: "Copy", copied: "Copied",
+    contact_note: "Contact details are taken from the Department of Agriculture website (doa.gov.lk); confirm on the official site before use. On a phone, tap a number to call; on a computer use 'Copy'.",
+    backend_off: "Login is unavailable: the backend is not connected. (If you opened the file directly from a folder, open your GitHub Pages link instead.)"
 });
 
 // ==================== BACKEND (Firebase) STATE & EVENTS ====================
 let user = null, rentalsData = null, expertsData = null, reportsData = null;
 const beOn = () => !!(window.AgriBackend && window.AgriBackend.enabled);
 
-window.addEventListener('agri:ready', () => { renderAuth(); });
+let backendError = '';
+function updateBackendStatus() {
+    const el = document.getElementById('backendStatus');
+    if (!el) return;
+    el.textContent = beOn() ? 'Backend: connected ✅'
+        : 'Backend: not connected' + (backendError ? ' (' + backendError + ')' : '');
+}
+window.addEventListener('agri:error', (e) => { backendError = e.detail; updateBackendStatus(); });
+window.addEventListener('agri:ready', () => { renderAuth(); updateBackendStatus(); });
 window.addEventListener('agri:auth', (e) => { user = e.detail; renderAuth(); renderRentals(); });
 window.addEventListener('agri:rentals', (e) => { rentalsData = e.detail; renderRentals(); });
 window.addEventListener('agri:experts', (e) => { expertsData = e.detail; renderExperts(); });
-window.addEventListener('agri:reports', (e) => { reportsData = e.detail; renderZones(); });
-
-// සත්‍ය වාර්තා තිබේ නම් (පසුගිය දින 14) ඒවායින් සිතියම; නැත්නම් Demo දත්ත
-function getZones() {
-    if (!beOn() || !reportsData || !reportsData.length) return ZONES;
-    const since = Date.now() - 14 * 864e5;
-    const by = {};
-    reportsData.filter(r => r.t >= since && DIST_COORDS[r.district]).forEach(r => { (by[r.district] = by[r.district] || []).push(r.disease); });
-    const zones = Object.keys(by).map(si => {
-        const n = by[si].length, cnt = {};
-        by[si].forEach(k => { cnt[k] = (cnt[k] || 0) + 1; });
-        const top = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
-        const dn = DISEASE_DB[top] ? DISEASE_DB[top].name : top;
-        const de = DISEASE_EN[top] ? DISEASE_EN[top].name : top;
-        const en = (DISTRICTS.find(x => x[0] === si) || [])[1] || si;
-        return { si, en, p: DIST_COORDS[si], r: n >= 5 ? 'high' : n >= 2 ? 'medium' : 'low',
-                 ts: `${dn} - වාර්තා ${n}`, te: `${de} - ${n} report(s)` };
-    });
-    return zones.length ? zones : ZONES;
-}
-
-
-Object.assign(I18N.si, {
-    nav_shop: "ඇණවුම්", shop_title: "කෘෂි භාණ්ඩ ඇණවුම් කරන්න",
-    shop_note: "දැනට තියෙන්නේ උදාහරණ නිෂ්පාදන සහ මිල. ඇණවුමක් දුන්නාම විකුණුම්කරු ඔබව සම්බන්ධ කරගෙන තහවුරු කරයි. මෙහි මාර්ගගත ගෙවීමක් නැත.",
-    cat_fert: "පොහොර", cat_bio: "ජෛව නිෂ්පාදන", cat_seed: "බීජ", cat_tool: "උපකරණ",
-    cart_title: "ඔබේ ඇණවුම", cart_empty: "තවම කිසිවක් තෝරා නැත. + බොත්තමෙන් එකතු කරන්න.", cart_total: "මුළු මුදල",
-    ph_note: "සටහනක් (අවශ්‍ය නම්)", order_btn: "ඇණවුම තහවුරු කරන්න",
-    order_need_items: "කරුණාකර අවම වශයෙන් එක් භාණ්ඩයක් තෝරන්න.",
-    order_ok_cloud: "ඇණවුම ලැබුණා! විකුණුම්කරු ඔබව සම්බන්ධ කරගනී.",
-    order_ok_local: "ඇණවුම මෙම උපාංගයේ පමණක් සුරැකුණා (backend සම්බන්ධ කර නැත). විකුණුම්කරුට යැවීමට පහත WhatsApp බොත්තම භාවිතා කරන්න.",
-    order_wa: "WhatsApp මගින් යවන්න",
-    contact_note: "සම්බන්ධතා තොරතුරු කෘෂිකර්ම දෙපාර්තමේන්තුවේ වෙබ් අඩවියෙන් (doa.gov.lk) ලබාගත් ඒවා. භාවිතයට පෙර නිල වෙබ් අඩවියෙන් තහවුරු කරගන්න."
-});
-Object.assign(I18N.en, {
-    nav_shop: "Order", shop_title: "Order Farm Supplies",
-    shop_note: "These are sample products and prices for now. After you place an order the seller will contact you to confirm. There is no online payment here.",
-    cat_fert: "Fertilizer", cat_bio: "Bio products", cat_seed: "Seeds", cat_tool: "Tools",
-    cart_title: "Your order", cart_empty: "Nothing selected yet. Use the + button to add items.", cart_total: "Total",
-    ph_note: "Note (optional)", order_btn: "Confirm order",
-    order_need_items: "Please select at least one item.",
-    order_ok_cloud: "Order received! The seller will contact you.",
-    order_ok_local: "Order saved on this device only (no backend connected). Use the WhatsApp button below to send it to the seller.",
-    order_wa: "Send via WhatsApp",
-    contact_note: "Contact details are taken from the Department of Agriculture website (doa.gov.lk). Please confirm on the official site before use."
-});
-Object.assign(I18N.si, { stat3: "නොමිලේ උපදේශන සේවය", support247: "" });
-Object.assign(I18N.en, { stat3: "Free advisory line", support247: "" });
 
 // ==================== SHOP ====================
 const SHOP_WHATSAPP = "";   // විකුණුම්කරුගේ WhatsApp අංකය, ජාත්‍යන්තර ආකෘතියෙන් (උදා: "94771234567"). හිස් නම් WhatsApp බොත්තම පෙන්වන්නේ නැත.
@@ -645,7 +631,7 @@ async function submitOrder(e) {
         try { list = JSON.parse(localStorage.getItem(ORDER_KEY)) || []; } catch {}
         list.unshift({ ...order, at: Date.now() });
         try { localStorage.setItem(ORDER_KEY, JSON.stringify(list.slice(0, 50))); } catch {}
-        msg.innerHTML = esc(t('order_ok_local')) + wa;
+        msg.innerHTML = esc(t('order_ok_local')) + (backendError ? ' <small>(' + esc(backendError) + ')</small>' : '') + wa;
     }
     cart = {};
     f.reset();
@@ -682,6 +668,18 @@ const CONTACTS = [
       lines: [["tel:+94212285406", "021 228 5406"]] }
 ];
 
+function contactRow(l) {
+    const href = l[0], label = l[1];
+    const web = href.startsWith('http') && !href.includes('wa.me');
+    const icon = href.startsWith('tel:') ? 'fas fa-phone' : href.startsWith('mailto:') ? 'fas fa-envelope'
+               : href.includes('wa.me') ? 'fab fa-whatsapp' : 'fas fa-globe';
+    const copy = href.startsWith('tel:') ? href.slice(4) : href.startsWith('mailto:') ? href.slice(7) : '';
+    return `<div class="c-row">
+        <a class="c-btn" href="${esc(href)}"${web || href.includes('wa.me') ? ' target="_blank" rel="noopener"' : ''}><i class="${icon}"></i> ${esc(label)}</a>
+        ${copy ? `<button type="button" class="c-copy" data-copy="${esc(copy)}" title="${esc(t('copy'))}" aria-label="${esc(t('copy'))}"><i class="far fa-copy"></i></button>` : ''}
+    </div>`;
+}
+
 function renderContacts() {
     const g = document.getElementById('contactGrid');
     if (!g) return;
@@ -689,13 +687,25 @@ function renderContacts() {
         const en = lang === 'en';
         const hours = en ? c.he : c.hs;
         return `<div class="contact-card">
-            <i class="fas ${c.icon}"></i>
+            <i class="fas ${c.icon} c-icon"></i>
             <h4>${esc(en ? c.en : c.si)}</h4>
             <p class="c-desc">${esc(en ? c.de : c.ds)}</p>
-            ${c.lines.map(l => `<a class="c-line" href="${esc(l[0])}"${l[0].startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${esc(l[1])}</a>`).join('')}
+            ${c.lines.map(contactRow).join('')}
             ${hours ? `<small class="c-hours">${esc(hours)}</small>` : ''}
         </div>`;
     }).join('');
+}
+
+async function copyText(txt) {
+    try { await navigator.clipboard.writeText(txt); return true; } catch {}
+    try {
+        const ta = document.createElement('textarea');
+        ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+    } catch { return false; }
 }
 
 // ==================== STATE ====================
@@ -706,8 +716,6 @@ let lastSearchKey = null;
 let lastResult = null;   // { key, prob, src } | { unsure: true, prob, src }
 let badgeKey = 'badge_default';
 let modelState = null;   // 'loading' | 'ok' | 'err' | null
-let map = null;
-let mapMarkers = [];
 
 // ==================== DOM ELEMENTS ====================
 const darkModeToggle = document.getElementById('darkModeToggle');
@@ -799,14 +807,15 @@ function applyLang() {
     fillSelect('rentType', EQUIPMENT, 'pick_equipment');
     fillSelect('rentFilter', EQUIPMENT, 'all_equipment');
     fillSelect('orderDistrict', DISTRICTS, 'pick_district');
+    fillSelect('weatherDistrict', DISTRICTS, 'pick_district');
 
     setBadge(badgeKey);
     setModelStatus(modelState);
     renderExperts();
     renderRentals();
-    renderZones();
     renderShop();
     renderContacts();
+    renderWeather();
     renderAuth();
     if (lastSearchKey) displaySearchResult(lastSearchKey);
     if (lastResult) renderResult();
@@ -842,104 +851,6 @@ function initDarkMode() {
         }
         try { localStorage.setItem('theme', isDark ? 'light' : 'dark'); } catch {}
     });
-}
-
-// ==================== MAP ====================
-function zonePopup(z, demo) {
-    return `<b>${esc(lang === 'en' ? z.en : z.si)}</b><br>${esc(lang === 'en' ? z.te : z.ts)}${demo ? '<br><small>Demo data</small>' : ''}`;
-}
-
-function renderZones() {
-    const box = document.getElementById('zoneList');
-    if (!box) return;
-    box.innerHTML = getZones().map(z => `
-        <div class="extra-card" style="border-left:5px solid ${RISK_COLOR[z.r]}">
-            <h4>${esc(lang === 'en' ? z.en : z.si)}</h4>
-            <p>${esc(lang === 'en' ? z.te : z.ts)}</p>
-        </div>`).join('');
-    if (map) drawMarkers();
-    if (useSvgMap) renderSvgMap();
-    const dn = document.querySelector('[data-i18n="demo_note"]');
-    if (dn) dn.style.display = (getZones() === ZONES) ? '' : 'none';
-}
-
-// ශ්‍රී ලංකාවේ සරල වෙරළ තීරය [lon, lat] - internet/tiles නැතිවුවත් සිතියම පෙන්වීමට
-const SL_OUTLINE = [[80.05,9.81],[80.23,9.83],[80.45,9.60],[80.82,9.27],[81.02,8.95],[81.23,8.57],[81.55,7.93],[81.70,7.72],[81.85,7.20],[81.84,6.84],[81.62,6.45],[81.33,6.22],[81.12,6.12],[80.80,6.02],[80.59,5.92],[80.22,6.03],[80.00,6.42],[79.85,6.93],[79.83,7.21],[79.80,7.57],[79.83,8.03],[79.76,8.23],[79.90,8.98],[79.72,9.08],[80.20,9.50]];
-let useSvgMap = false;
-
-function svgXY(lon, lat) { return [((lon - 79.5) * 160).toFixed(1), ((9.95 - lat) * 160).toFixed(1)]; }
-
-function renderSvgMap() {
-    const el = document.getElementById('riskMap');
-    if (!el) return;
-    useSvgMap = true;
-    el.style.height = '460px';
-    el.style.background = '#cfe6f3';
-    const pts = SL_OUTLINE.map(([lo, la]) => svgXY(lo, la).join(',')).join(' ');
-    const small = getZones().length > 10;
-    const dots = getZones().map(z => {
-        const [x, y] = svgXY(z.p[1], z.p[0]);
-        const c = RISK_COLOR[z.r];
-        const name = esc(lang === 'en' ? z.en : z.si);
-        const note = esc(lang === 'en' ? z.te : z.ts);
-        return `<g><title>${name} - ${note}</title>
-            <circle cx="${x}" cy="${y}" r="${small ? 10 : 16}" fill="${c}" fill-opacity="0.35"/>
-            <circle cx="${x}" cy="${y}" r="${small ? 5 : 8}" fill="${c}" stroke="#fff" stroke-width="2"/>
-            <text x="${+x + (small ? 9 : 14)}" y="${+y + 4}" font-size="${small ? 10 : 14}" font-weight="600" fill="#12301a" stroke="#fff" stroke-width="3" paint-order="stroke">${name}</text></g>`;
-    }).join('');
-    el.innerHTML = `<svg viewBox="0 0 400 664" width="100%" height="100%" role="img" aria-label="Sri Lanka risk map" preserveAspectRatio="xMidYMid meet">
-        <rect width="400" height="664" fill="#cfe6f3"/>
-        <polygon points="${pts}" fill="#9fd0a0" stroke="#3f7d46" stroke-width="3" stroke-linejoin="round"/>
-        ${dots}</svg>`;
-}
-
-function switchToSvgMap() {
-    if (useSvgMap) return;
-    try { if (map) { map.remove(); } } catch {}
-    map = null;
-    mapMarkers = [];
-    renderSvgMap();
-}
-
-let markerLayer = null;
-
-function drawMarkers() {
-    if (!map || !markerLayer) return;
-    markerLayer.clearLayers();
-    const demo = getZones() === ZONES;
-    getZones().forEach(z => {
-        L.circleMarker(z.p, { radius: 14, color: RISK_COLOR[z.r], fillColor: RISK_COLOR[z.r], fillOpacity: 0.6 })
-            .addTo(markerLayer)
-            .bindPopup(zonePopup(z, demo));
-    });
-}
-
-function initMap(tries = 0) {
-    const el = document.getElementById('riskMap');
-    if (!el || map || useSvgMap) return;
-    if (typeof L === 'undefined') {
-        if (tries < 12) { setTimeout(() => initMap(tries + 1), 500); return; }
-        renderSvgMap();   // Leaflet load නොවුණොත් සරල සිතියමක්
-        return;
-    }
-    map = L.map(el).setView([7.8731, 80.7718], 7);
-
-    // OpenStreetMap වල නොමිලේ server එක (403) block කළ නිසා CARTO tiles භාවිතා කරයි
-    let tileLoaded = false;
-    const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains: 'abcd', maxZoom: 19,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
-    }).addTo(map);
-    tiles.on('tileload', () => { tileLoaded = true; });
-
-    markerLayer = L.layerGroup().addTo(map);
-    drawMarkers();
-
-    [200, 800, 2000].forEach(ms => setTimeout(() => map && map.invalidateSize(), ms));
-    window.addEventListener('resize', () => map && map.invalidateSize());
-
-    // තත්පර 10ක් ඇතුළත සිතියම් පින්තූර එකක්වත් නොආවොත් සරල සිතියමට මාරු වේ
-    setTimeout(() => { if (!tileLoaded) switchToSvgMap(); }, 10000);
 }
 
 // ==================== AI MODEL LOADING ====================
@@ -1069,18 +980,6 @@ function removeImage() {
 }
 
 // ==================== AI ANALYSIS ====================
-function reportBlock(key) {
-    if (!beOn() || key === 'healthy') return '';
-    return `<div class="report-box">
-        <select id="reportDistrict" aria-label="${esc(t('pick_district'))}">
-            <option value="">${esc(t('pick_district'))}</option>
-            ${DISTRICTS.map(p => `<option value="${esc(p[0])}">${esc(pick(p))}</option>`).join('')}
-        </select>
-        <button type="button" id="reportBtn" class="btn-outline" data-key="${esc(key)}">${esc(t('report_btn'))}</button>
-        <p id="reportMsg">${esc(t('report_hint'))}</p>
-    </div>`;
-}
-
 function renderResult() {
     if (!lastResult || !resultDisplay) return;
     const { key, prob, src, unsure } = lastResult;
@@ -1110,7 +1009,6 @@ function renderResult() {
             <p style="margin-top:10px"><strong>${esc(t('label_treat'))}</strong><br>${esc(d.treatment)}</p>
             <p style="margin-top:10px"><strong>${esc(t('label_prevent'))}</strong><br>${esc(d.prevention)}</p>
             <p class="safety-note">${esc(t('safety'))}</p>
-            ${reportBlock(key)}
         </div>`;
 }
 
@@ -1233,9 +1131,8 @@ async function submitRental(e) {
 function renderAuth() {
     const b = document.getElementById('authBtn');
     if (!b) return;
-    if (!beOn()) { b.style.display = 'none'; return; }
     b.style.display = '';
-    b.textContent = user ? `${t('logout')} (${(user.email || '').split('@')[0]})` : t('login');
+    b.textContent = (beOn() && user) ? `${t('logout')} (${(user.email || '').split('@')[0]})` : t('login');
 }
 
 function openAuth(note) {
@@ -1260,6 +1157,7 @@ async function doAuth(kind) {
     const email = document.getElementById('authEmail').value.trim();
     const pass = document.getElementById('authPass').value;
     const msg = document.getElementById('authMsg');
+    if (!beOn()) { msg.textContent = t('backend_off'); return; }
     if (!email || pass.length < 6) { msg.textContent = t('auth_err_weak'); return; }
     try {
         await window.AgriBackend[kind](email, pass);
@@ -1282,6 +1180,7 @@ function initExtras() {
     });
 
     document.getElementById('authBtn')?.addEventListener('click', () => {
+        if (!beOn()) { openAuth(t('backend_off') + (backendError ? ' [' + backendError + ']' : '')); return; }
         if (user) window.AgriBackend.signOut(); else openAuth('');
     });
     document.getElementById('authClose')?.addEventListener('click', closeAuth);
@@ -1292,17 +1191,13 @@ function initExtras() {
 
     // රෝග වාර්තාව සහ මකා දැමීම (result/list නැවත ඇඳෙන නිසා delegation)
     document.addEventListener('click', async (e) => {
-        const rb = e.target.closest('#reportBtn');
-        if (rb) {
-            const sel = document.getElementById('reportDistrict');
-            const msg = document.getElementById('reportMsg');
-            if (!user) { openAuth(t('login_required')); return; }
-            if (!sel.value) { msg.textContent = t('pick_district'); return; }
-            try {
-                await window.AgriBackend.addReport({ disease: rb.dataset.key, district: sel.value });
-                msg.textContent = t('report_ok');
-                rb.disabled = true;
-            } catch (err) { console.error(err); msg.textContent = t('backend_err'); }
+        const cb = e.target.closest('[data-copy]');
+        if (cb) {
+            if (await copyText(cb.dataset.copy)) {
+                const old = cb.innerHTML;
+                cb.innerHTML = '<i class="fas fa-check"></i> ' + esc(t('copied'));
+                setTimeout(() => { cb.innerHTML = old; }, 1500);
+            }
             return;
         }
         const db = e.target.closest('[data-del]');
@@ -1311,6 +1206,109 @@ function initExtras() {
             catch (err) { console.error(err); alert(t('backend_err')); }
         }
     });
+}
+
+// ==================== WEATHER (Open-Meteo - නොමිලේ, API key අවශ්‍ය නැත) ====================
+const WX_KEY = 'agri_weather_district';
+const WX = { data: null, district: '', at: 0, loading: false, error: false };
+// [උපරිම WMO කේතය, emoji, සිංහල, English]
+const WX_CODES = [[0, '☀️', 'පැහැදිලි', 'Clear'], [3, '⛅', 'අර්ධ වලාකුළු', 'Partly cloudy'], [48, '🌫️', 'මීදුම', 'Fog'],
+    [57, '🌦️', 'සිහින් වැසි', 'Drizzle'], [67, '🌧️', 'වැසි', 'Rain'], [77, '❄️', 'හිම', 'Snow'],
+    [82, '🌧️', 'වැසි ධාරා', 'Showers'], [86, '❄️', 'හිම වැසි', 'Snow showers'], [99, '⛈️', 'ගිගුරුම් සහිත වැසි', 'Thunderstorm']];
+function wxInfo(code) { return WX_CODES.find(c => code <= c[0]) || WX_CODES[WX_CODES.length - 1]; }
+function wxDay(iso) {
+    return new Date(iso + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-GB' : 'si-LK', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function weatherAdvice(dl) {
+    const out = [];
+    const days = dl.time.map((iso, i) => ({
+        label: wxDay(iso), p: dl.precipitation_probability_max[i] ?? 0, mm: dl.precipitation_sum[i] ?? 0,
+        wind: dl.wind_speed_10m_max[i] ?? 0, tmax: dl.temperature_2m_max[i] ?? 0
+    }));
+    const best = days.find(x => x.p < 40 && x.mm < 2 && x.wind < 20 && x.tmax < 34);
+    out.push(best ? t('adv_best').replace('{d}', best.label) : t('adv_none'));
+    days.slice(0, 3).forEach(x => {
+        if (x.mm >= 30) out.push(t('adv_flood').replace('{d}', x.label));
+        else if (x.p >= 60 || x.mm >= 5) out.push(t('adv_rain').replace('{d}', x.label));
+        if (x.wind >= 25) out.push(t('adv_wind').replace('{d}', x.label));
+        if (x.tmax >= 34) out.push(t('adv_heat').replace('{d}', x.label));
+    });
+    if (days.filter(x => x.p >= 60).length >= 2) out.push(t('adv_fungal'));
+    return out;
+}
+
+function renderWeather() {
+    const box = document.getElementById('weatherBox');
+    const sel = document.getElementById('weatherDistrict');
+    if (!box || !sel) return;
+    if (!sel.value) { box.innerHTML = `<p class="extra-empty">${esc(t('weather_pick_hint'))}</p>`; return; }
+    if (WX.loading) { box.innerHTML = `<div class="notice info"><div class="spinner"></div> ${esc(t('weather_loading'))}</div>`; return; }
+    if (WX.error || !WX.data) { box.innerHTML = `<div class="notice error">${esc(t('weather_err'))}</div>`; return; }
+
+    const w = WX.data, c = w.current, dl = w.daily, en = lang === 'en';
+    const now = wxInfo(c.weather_code);
+    const dayCards = dl.time.map((iso, i) => {
+        const inf = wxInfo(dl.weather_code[i]);
+        return `<div class="wx-day">
+            <strong>${esc(wxDay(iso))}</strong>
+            <span class="wx-emoji" title="${esc(en ? inf[3] : inf[2])}">${inf[1]}</span>
+            <span>${Math.round(dl.temperature_2m_max[i])}° / ${Math.round(dl.temperature_2m_min[i])}°</span>
+            <small>${esc(t('wx_rain'))}: ${Math.round(dl.precipitation_probability_max[i] ?? 0)}% · ${(dl.precipitation_sum[i] ?? 0).toFixed(1)} mm</small>
+            <small>${esc(t('wx_wind'))}: ${Math.round(dl.wind_speed_10m_max[i] ?? 0)} km/h</small>
+        </div>`;
+    }).join('');
+
+    box.innerHTML = `
+        <div class="extra-card wx-now">
+            <span class="wx-big">${now[1]}</span>
+            <div><strong>${esc(t('weather_now'))}: ${Math.round(c.temperature_2m)}°C</strong> - ${esc(en ? now[3] : now[2])}<br>
+            <small>${esc(t('wx_humidity'))}: ${Math.round(c.relative_humidity_2m)}% · ${esc(t('wx_wind'))}: ${Math.round(c.wind_speed_10m)} km/h</small></div>
+        </div>
+        <div class="wx-days">${dayCards}</div>
+        <div class="extra-card wx-advice">
+            <h4>${esc(t('advice_title'))}</h4>
+            <ul>${weatherAdvice(dl).map(a => `<li>${esc(a)}</li>`).join('')}</ul>
+            <small>${esc(t('adv_note'))}</small>
+        </div>`;
+}
+
+async function loadWeather(si) {
+    const c = DIST_COORDS[si];
+    if (!c) return;
+    if (WX.district === si && WX.data && Date.now() - WX.at < 30 * 60 * 1000) { renderWeather(); return; }
+    WX.loading = true; WX.error = false; WX.district = si; WX.data = null;
+    renderWeather();
+    try {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + c[0] + '&longitude=' + c[1] +
+            '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code' +
+            '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max' +
+            '&timezone=Asia%2FColombo&forecast_days=5';
+        const r = await fetch(url);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const json = await r.json();
+        if (WX.district !== si) return;          // වෙනත් දිස්ත්‍රික්කයක් තෝරා ඇත
+        WX.data = json; WX.at = Date.now();
+    } catch (err) {
+        console.error('weather:', err);
+        if (WX.district !== si) return;
+        WX.error = true;
+    }
+    WX.loading = false;
+    renderWeather();
+}
+
+function initWeather() {
+    const sel = document.getElementById('weatherDistrict');
+    if (!sel) return;
+    let saved = '';
+    try { saved = localStorage.getItem(WX_KEY) || ''; } catch {}
+    if (saved && DIST_COORDS[saved]) sel.value = saved;
+    sel.addEventListener('change', () => {
+        try { localStorage.setItem(WX_KEY, sel.value); } catch {}
+        if (sel.value) loadWeather(sel.value); else renderWeather();
+    });
+    if (sel.value) loadWeather(sel.value); else renderWeather();
 }
 
 // ==================== EVENT LISTENERS ====================
@@ -1324,14 +1322,22 @@ function safeInit(name, fn) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("AgriDoctor Pro v2.2");
+    console.log("AgriDoctor Pro v2.4");
     safeInit('lang', initLang);
     safeInit('darkMode', initDarkMode);
     safeInit('voice', initVoiceRecognition);
     safeInit('upload', initImageUpload);
     safeInit('extras', initExtras);
     safeInit('applyLang', applyLang);
-    safeInit('map', () => setTimeout(initMap, 100));
+    safeInit('weather', initWeather);
+    if (location.protocol === 'file:') backendError = 'opened as a local file - use your GitHub Pages link or a local web server';
+    updateBackendStatus();
+    setTimeout(() => {
+        if (!beOn() && !backendError) {
+            backendError = 'backend.js did not load - file missing, old cache, or page opened without a web server';
+        }
+        updateBackendStatus();
+    }, 5000);
 });
 
 // AI library එක (defer) සූදානම් වූ පසු model එක load කරන්න

@@ -9,7 +9,6 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 
@@ -27,7 +26,7 @@
                 </div>
                 <div class="nav">
                     <a href="#upload-section"><i class="fas fa-microscope"></i> <span data-i18n="nav_analyze">විශ්ලේෂණය</span></a>
-                    <a href="#map-section"><i class="fas fa-map-marked-alt"></i> <span data-i18n="nav_map">සිතියම</span></a>
+                    <a href="#weather-section"><i class="fas fa-cloud-sun-rain"></i> <span data-i18n="nav_weather">කාලගුණය</span></a>
                     <a href="#shop-section"><i class="fas fa-shopping-basket"></i> <span data-i18n="nav_shop">ඇණවුම්</span></a>
                     <a href="#rent-section"><i class="fas fa-tractor"></i> <span data-i18n="nav_rent">කුලිය</span></a>
                     <a href="#expert-section"><i class="fas fa-user-tie"></i> <span data-i18n="nav_expert">විශේෂඥ</span></a>
@@ -99,17 +98,12 @@
                 </div>
             </section>
 
-            <section id="map-section" class="map-section">
+            <section id="weather-section" class="extra-section">
                 <div class="container">
-                    <h2 class="section-title" data-i18n="map_title"><i class="fas fa-map-marked-alt"></i> වගා අවදානම් කලාප සිතියම</h2>
-                    <div id="riskMap"></div>
-                    <div class="map-legend">
-                        <span data-i18n="risk_high"><i class="fas fa-circle" style="color:#f44336;"></i> ඉහළ අවදානම</span>
-                        <span data-i18n="risk_med"><i class="fas fa-circle" style="color:#ff9800;"></i> මධ්‍යම අවදානම</span>
-                        <span data-i18n="risk_low"><i class="fas fa-circle" style="color:#4caf50;"></i> අඩු අවදානම</span>
-                    </div>
-                    <div id="zoneList" class="extra-list zone-list"></div>
-                    <p class="demo-note" data-i18n="demo_note">සිතියමේ දත්ත දැනට උදාහරණ (Demo) පමණි.</p>
+                    <h2 class="section-title" data-i18n="weather_title"><i class="fas fa-cloud-sun-rain"></i> කාලගුණය සහ ඉසින/පොහොර යෙදීමේ උපදෙස්</h2>
+                    <div class="extra-toolbar"><select id="weatherDistrict" aria-label="දිස්ත්‍රික්කය"></select></div>
+                    <div id="weatherBox" class="weather-box" aria-live="polite"></div>
+                    <p class="demo-note" data-i18n="weather_credit"></p>
                 </div>
             </section>
 
@@ -170,7 +164,8 @@
 
         <footer class="footer">
             <p data-i18n="footer"><i class="fas fa-copyright"></i> 2026 AgriDoctor Pro - ශ්‍රී ලංකාවේ ගොවීන් වෙනුවෙන් AI තාක්ෂණය</p>
-            <p class="version">Version 2.2 | AI Powered Disease Detection</p>
+            <p class="version">Version 2.4 | AI Powered Disease Detection</p>
+            <p class="version" id="backendStatus"></p>
         </footer>
     </div>
 
@@ -193,18 +188,18 @@
     <div id="offlineToast" class="offline-toast" style="display: none;">
         <span data-i18n="offline"><i class="fas fa-wifi"></i> ඔබ නොබැඳියේ. සමහර විශේෂාංග සීමා වේ.</span>
     </div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>if(!window.L){var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js";document.head.appendChild(s);var c=document.createElement("link");c.rel="stylesheet";c.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css";document.head.appendChild(c);}</script>
     <script src="script.js"></script>
     <script type="module" src="backend.js"></script>
 
     <script>
+        // පරණ service worker / cache නිසා පරණ site එක පෙනීම වැළැක්වීමට (sw.js එක ස්වයං-විනාශ වේ)
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW registered:', reg))
-                    .catch(err => console.log('SW error:', err));
-            });
+            navigator.serviceWorker.getRegistrations()
+                .then(rs => rs.forEach(r => r.update().catch(() => {})))
+                .catch(() => {});
+        }
+        if (window.caches) {
+            caches.keys().then(ks => ks.forEach(k => caches.delete(k))).catch(() => {});
         }
 
         let deferredPrompt;

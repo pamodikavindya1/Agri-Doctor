@@ -668,3 +668,37 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .contact-card .c-hours { display: block; margin-top: 8px; font-size: 12px; color: var(--text-light); }
 .contact-card a.c-line { display: block; margin-top: 4px; font-size: 14px; word-break: break-word; }
 @media (max-width: 768px) { .order-wrap { grid-template-columns: 1fr; } }
+
+/* ==================== Weather ==================== */
+.weather-box { margin-top: 20px; display: grid; gap: 16px; }
+.wx-now { display: flex; align-items: center; gap: 18px; }
+.wx-big { font-size: 56px; line-height: 1; }
+.wx-days { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.wx-day {
+    background: var(--card); color: var(--text); border-radius: var(--radius-md);
+    padding: 14px; text-align: center; display: flex; flex-direction: column; gap: 4px;
+    box-shadow: var(--shadow-sm); border: 1px solid rgba(255,255,255,0.35);
+}
+.wx-emoji { font-size: 34px; }
+.wx-day small { color: var(--text-light); font-size: 12px; }
+.wx-advice h4 { margin-bottom: 8px; }
+.wx-advice ul { margin: 0 0 10px 18px; font-size: 14px; color: var(--text); }
+.wx-advice li { margin-bottom: 6px; }
+.wx-advice small { color: var(--text-light); }
+
+/* ==================== Contact buttons (clickable) ==================== */
+.contact-card { cursor: default; }
+.contact-card .c-icon { font-size: 36px; color: var(--primary); margin-bottom: 10px; }
+.c-row { display: flex; gap: 8px; margin-top: 8px; align-items: stretch; }
+.contact-card a.c-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 0; padding: 10px 14px; border-radius: var(--radius-xl);
+    background: var(--primary); color: #fff; font-size: 14px; font-weight: 600;
+    text-decoration: none; word-break: break-word; transition: var(--transition);
+}
+.contact-card a.c-btn:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+.c-copy {
+    border: 1px solid var(--primary); background: transparent; color: var(--primary);
+    border-radius: var(--radius-xl); padding: 0 14px; cursor: pointer; font-family: inherit; font-size: 13px;
+}
+.c-copy:hover { background: var(--primary); color: #fff; }
